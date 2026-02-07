@@ -28,7 +28,7 @@ public class SecurityConfigurations {
         return httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> {
-                    request.requestMatchers(HttpMethod.POST, "/auth").permitAll()
+                    request.requestMatchers(HttpMethod.POST, "/login").permitAll()
                             //Esta es la url donde puedo ver la documentación de  swagger en mi proyecto: http://localhost:8080/swagger-ui/index.html#/
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     request.anyRequest().authenticated();

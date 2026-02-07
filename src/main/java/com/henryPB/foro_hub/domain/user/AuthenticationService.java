@@ -1,6 +1,5 @@
-package com.henryPB.foro_hub.infra.security;
+package com.henryPB.foro_hub.domain.user;
 
-import com.henryPB.foro_hub.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

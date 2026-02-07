@@ -1,6 +1,7 @@
 package com.henryPB.foro_hub.domain.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,9 +23,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -33,7 +31,18 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Profile profile;
+    private Profile profile = Profile.USER;
+
+    @Column(nullable = false)
+    private Boolean active = true;
+
+    //Constructor
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+        this.active = true;
+    }
+
 
 
     @Override
@@ -57,5 +66,13 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {return true;}
 
     @Override
-    public boolean isEnabled() {return true;}
+    public boolean isEnabled() {return active;}
+
+    public void update(String email, String encode, Profile profile) {
+        if(email != null) this.email = email;
+        if(encode != null) this.password = encode;
+        if(profile != null) this.profile = profile;
+    }
+
+    public void desactivate(){this.active = false;}
 }

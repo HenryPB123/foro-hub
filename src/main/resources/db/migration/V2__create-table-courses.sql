@@ -1,0 +1,8 @@
+CREATE TABLE courses (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    category ENUM('BACKEND', 'FRONTEND', 'DEVOPS', 'DATA_SCIENCE') NOT NULL,
+
+    PRIMARY KEY (id),
+    CONSTRAINT uk_courses_name UNIQUE (name)
+) ENGINE=InnoDB;

@@ -26,11 +26,11 @@ public class Answer {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String message;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
@@ -39,4 +39,11 @@ public class Answer {
 
     @Column(nullable = false)
     private LocalDateTime creationDate;
+
+    @PrePersist
+    private void prePersist() {
+        this.creationDate = LocalDateTime.now();
+        this.solution = false;
+    }
+
 }

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
-public class LoginController {
+@RequestMapping("/login")
+public class AuthenticationController {
 
     @Autowired
     private TokenService tokenService;
@@ -31,8 +31,6 @@ public class LoginController {
         var authentication = manager.authenticate(authenticationToken);
 
         var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
-
-        System.out.println("TOKEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNN => " + tokenJWT);
 
         return ResponseEntity.ok(new TokenJWTData(tokenJWT));
     }
