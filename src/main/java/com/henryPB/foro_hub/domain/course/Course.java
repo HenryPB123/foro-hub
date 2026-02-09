@@ -1,6 +1,5 @@
 package com.henryPB.foro_hub.domain.course;
 
-import com.henryPB.foro_hub.domain.user.Profile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

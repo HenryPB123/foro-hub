@@ -24,22 +24,39 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+
+        if (path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-ui")
+                || path.equals("/swagger-ui.html")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         var tokenJWT = recoverToken(request);
 
-        if(tokenJWT != null){
+        if (tokenJWT != null) {
             var subject = tokenService.getSubject(tokenJWT);
             var user = userRepository.findByEmail(subject)
-                    .orElseThrow(() -> new UsernameNotFoundException(
-                            "Usuario no encontrado"));
+                    .orElseThrow(() ->
+                            new UsernameNotFoundException("Usuario no encontrado"));
 
-            var authentication =  new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            var authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            user, null, user.getAuthorities());
+
+            SecurityContextHolder.getContext()
+                    .setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
     }
+
 
     private String recoverToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");

@@ -14,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/users")
-@SecurityRequirement(name = "beare-key")
+@SecurityRequirement(name = "bearer-key")
 public class UserController {
 
     @Autowired

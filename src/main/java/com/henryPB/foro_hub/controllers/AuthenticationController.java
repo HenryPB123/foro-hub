@@ -34,6 +34,4 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(new TokenJWTData(tokenJWT));
     }
-
-
 }

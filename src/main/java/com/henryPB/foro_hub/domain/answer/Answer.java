@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity(name = "Answer")
@@ -37,13 +39,38 @@ public class Answer {
     @Column(nullable = false)
     private Boolean solution;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
-    @PrePersist
-    private void prePersist() {
-        this.creationDate = LocalDateTime.now();
+    public Answer(String message, Topic topic, User author) {
+        this.message = message;
+        this.topic = topic;
+        this.author = author;
         this.solution = false;
     }
+
+    public boolean isSolution() {
+        return this.solution;
+    }
+
+    public void markAsSolution() {
+        this.solution = true;
+    }
+
+    public void unmarkAsSolution() {
+        this.solution = false;
+    }
+
+
+    public void updateMessage(String message) {
+        this.message = message.toLowerCase();
+    }
+//
+//    @PrePersist
+//    private void prePersist() {
+//        this.creationDate = LocalDateTime.now();
+//        this.solution = false;
+//    }
 
 }

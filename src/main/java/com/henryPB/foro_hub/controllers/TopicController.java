@@ -1,5 +1,9 @@
 package com.henryPB.foro_hub.controllers;
 
+import com.henryPB.foro_hub.domain.answer.Answer;
+import com.henryPB.foro_hub.domain.answer.AnswerDetailData;
+import com.henryPB.foro_hub.domain.answer.AnswerService;
+import com.henryPB.foro_hub.domain.answer.RegisterAnswerData;
 import com.henryPB.foro_hub.domain.course.CourseRepository;
 import com.henryPB.foro_hub.domain.pageResponse.PageResponseData;
 import com.henryPB.foro_hub.domain.topic.*;
@@ -20,6 +24,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class TopicController {
 
     @Autowired
+    private AnswerService answerService;
+
+    @Autowired
     private TopicService topicService;
 
     @Autowired
@@ -28,7 +35,7 @@ public class TopicController {
     @Autowired
     private AuthenticationService authService;
 
-    //CreaTE topic
+    //CreaTE topicId
     @Transactional
     @PostMapping
     public ResponseEntity<RegisterDetailTopicData> createUser(@RequestBody @Valid RegisterTopicData data, UriComponentsBuilder uriBuilder){
@@ -49,14 +56,14 @@ public class TopicController {
         return ResponseEntity.ok(responsePageData);
     }
 
-    //Get one topic
+    //Get one topicId
     @GetMapping("/{id}")
     public ResponseEntity getTopic(@PathVariable Long id){
         Topic topic = topicService.findTopicById(id);
         return ResponseEntity.ok(new RegisterDetailTopicData(topic));
     }
 
-    //Update topic
+    //Update topicId
     @Transactional
     @PutMapping
     public ResponseEntity updateTopic(@RequestBody @Valid UpdateDataTopic data){
@@ -64,7 +71,7 @@ public class TopicController {
         return ResponseEntity.ok(new RegisterDetailTopicData(topic));
     }
 
-    //Delete or File topic
+    //Delete or File topicId
     @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity filedTopic(@PathVariable Long id){
@@ -72,4 +79,36 @@ public class TopicController {
         return ResponseEntity.ok(response);
     }
 
+
+    //!Peticiones de ANSWERS a través de topics
+
+
+    @PostMapping("/{id}/answers")
+    @Transactional
+    public ResponseEntity<AnswerDetailData> createAnswer(
+            @PathVariable Long id,
+            @RequestBody @Valid RegisterAnswerData data,
+            UriComponentsBuilder uriBuilder
+    ) {
+
+        Answer answer = answerService.createAnswer(id, data);
+
+        var uri = uriBuilder
+                .path("/answers/{id}")
+                .buildAndExpand(answer.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri)
+                .body(new AnswerDetailData(answer));
+    }
+
+    @GetMapping("/{id}/answers")
+    public ResponseEntity<PageResponseData<AnswerDetailData>> listAnswers(
+            @PathVariable Long id,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                answerService.listByTopic(id, pageable)
+        );
+    }
 }
