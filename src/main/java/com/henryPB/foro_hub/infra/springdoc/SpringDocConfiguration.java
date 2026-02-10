@@ -20,7 +20,7 @@ public class SpringDocConfiguration {
                                 new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info()
                         .title("Foro Hub API")
-                        .description("API Rest de la aplicación Foro Hub, que contiene las funcionalidades CRUD de posts.")
+                        .description("API Rest de la aplicación Foro Hub, que contiene las funcionalidades CRUD de USERS, COURSES, TOPICS Y ANSWERS.")
                         .contact(new Contact()
                                 .name("Equipo Backend")
                                 .email("forohub@gmail.com"))
