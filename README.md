@@ -127,8 +127,7 @@ Este proyecto fue desarrollado como parte de **un desafío del área de Backend 
 
 La API viene documentada con **Swagger / OpenAPI**.
 
-📌 Una vez que el proyecto está ejecutándose, puedes acceder a la documentación en: http://localhost:8080/swagger-ui/index.html
-
+📌 Una vez que el proyecto está ejecutándose, puedes acceder a la documentación en:http://localhost:8080/swagger-ui/index.html
 Ahí podrás ver todos los endpoints y probar las peticiones desde el navegador.
 
 ---
@@ -138,7 +137,7 @@ Ahí podrás ver todos los endpoints y probar las peticiones desde el navegador.
 Este proyecto usa **MySQL** como base de datos.  
 Configura **application.properties** o **application.yml** con tus datos:
 
-```properties
+### properties
 spring.datasource.url=jdbc:mysql://localhost:3306/foro_hub
 spring.datasource.username=TU_USUARIO
 spring.datasource.password=TU_PASSWORD
@@ -148,7 +147,7 @@ spring.jpa.show-sql=true
 
 spring.flyway.enabled=true
 
-🔐 Seguridad
+### 🔐 Seguridad
 
 La API está protegida con JWT (JSON Web Tokens).
 Para acceder a la mayoría de endpoints necesitas un token válido generado desde:
